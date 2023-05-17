@@ -6,59 +6,80 @@ export default function App() {
   const [ errors, setErrors ] = useState({ dayError: null, monthError: null, yearError: null });
 
   const calculateDate = (e) => {
-    e.preventDefault()
-		const { day, month, year } = e.target.elements
-		const valueDate = {
-			day: Number(day.value),
-			month: Number(month.value),
-			year: Number(year.value)
-		}
-
-    const currentDate = new Date(0);
-    const pastDate = new Date(valueDate.year, valueDate.month - 1, valueDate.day);
-    const diffDate = new Date(Date.now() - pastDate.getTime());
-
-    checkErrors(valueDate.day, valueDate.month, valueDate.year);
-    console.log(errors);
-
-    setData({
-      years: Math.abs(diffDate.getUTCFullYear() - currentDate.getUTCFullYear()),
-      months: Math.abs(diffDate.getUTCMonth() - currentDate.getUTCMonth()),
-      days: Math.abs(diffDate.getUTCDate() - currentDate.getUTCDate())
-    });
-  }
-
-  const checkPluralDate = (number) => {
-    if (number === 0 || number >= 2) {
-      return true;
+    e.preventDefault();
+    const { day, month, year } = e.target.elements;
+    const valueDate = {
+      day: Number(day.value),
+      month: Number(month.value),
+      year: Number(year.value)
+    };
+  
+    const updatedErrors = checkErrors(valueDate.day, valueDate.month, valueDate.year);
+    const isValid = Object.values(updatedErrors).every(response => response === null);
+  
+    if (isValid) {
+      setErrors(updatedErrors);
+  
+      const currentDate = new Date(0);
+      const pastDate = new Date(valueDate.year, valueDate.month - 1, valueDate.day);
+      const diffDate = new Date(Date.now() - pastDate.getTime());
+  
+      setData({
+        years: Math.abs(diffDate.getUTCFullYear() - currentDate.getUTCFullYear()),
+        months: Math.abs(diffDate.getUTCMonth() - currentDate.getUTCMonth()),
+        days: Math.abs(diffDate.getUTCDate() - currentDate.getUTCDate())
+      });
+    } else {
+      setErrors(updatedErrors);
     }
-  }
+  };
 
   const checkErrors = (day, month, year) => {
-    setErrors({dayError: null, monthError: null, yearError: null});
-    const newObject = { ...errors };
+    const errorsObject = { dayError: null, monthError: null, yearError: null };
 
-    if(day === '') {
-      newObject.dayError = 'Preencha o campo dia';
+    if (day === '') {
+      errorsObject.dayError = 'Preencha o campo dia';
     } else {
       const totalDaysMonth = new Date(year, month, 0).getDate() || 31;
-      if(day > totalDaysMonth) {
-        newObject.dayError = `O mês possui apenas ${totalDaysMonth} dias`;
-      } else if(day < 1) {
-        newObject.dayError = 'Coloque um valor válido';
+      if (day > totalDaysMonth) {
+        errorsObject.dayError = `O mês possui apenas ${totalDaysMonth} dias`;
+      } else if (day < 1) {
+        errorsObject.dayError = 'Coloque um valor válido';
       }
     }
-
-    if(month === '') {
-      newObject.monthError = 'Preencha o campo mês';
-    } else if(month > 12 || month < 1) {
-      newObject.monthError = 'Coloque um valor válido';
+  
+    if (month === '') {
+      errorsObject.monthError = 'Preencha o campo mês';
+    } else if (month > 12 || month < 1) {
+      errorsObject.monthError = 'Coloque um valor válido';
     }
+  
+    if (year === '') {
+      errorsObject.yearError = 'Preencha o campo ano';
+    } else {
+      if (year < 1) {
+        errorsObject.yearError = 'Coloque um valor válido';
+      }
+    }
+  
+    if (year > new Date().getFullYear()) {
+      errorsObject.yearError = 'A data deve estar no passado';
+    } else if (year === new Date().getFullYear()) {
+      if (month === new Date().getMonth() + 1) {
+        if (day > new Date().getDate()) {
+          errorsObject.dayError = 'A data deve estar no passado';
+        }
+      } else if (month > new Date().getMonth() + 1) {
+        errorsObject.monthError = 'A data deve estar no passado';
+      }
+    }
+  
+    return errorsObject;
+  };
 
-    if(year === '') {
-      newObject.yearError = 'Preencha o campo ano';
-    } else if(year < 1) {
-      newObject.yearError = 'Coloque um valor válido';
+  const checkPluralDate = (number) => {
+    if(number === 0 || number >= 2) {
+      return true;
     }
   }
 
@@ -68,18 +89,18 @@ export default function App() {
         <div className="flex flex-row justify-between">
           <div className="flex flex-col w-[30%]">
             <label className="text-gray-500 tracking-[.25em] mb-1 text-sm font-bold " htmlFor="day">DIA</label>
-            <input autoComplete="off" required name="day" className="font-bold text-xl p-3 border-solid border-2 border-gray-300 rounded-md outline-none focus:border-purple" type="number" placeholder="DD" id="day" />
-            {errors.dayError != null && <span className="text-center text-xs font-normal text-light-red">{errors.dayError}</span>}
+            <input autoComplete="off" required name="day" className={`font-bold text-xl p-3 border-solid border-2 ${errors.dayError ? "border-light-red focus:border-light-red" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="DD" id="day" />
+            {errors.dayError && <span className="text-center text-xs font-thin mt-1 italic text-light-red">{errors.dayError}</span>}
           </div>
           <div className="flex flex-col w-[30%]">
             <label className="text-gray-500 tracking-[.25em] mb-1 text-sm font-bold " htmlFor="month">MÊS</label>
-            <input autoComplete="off" required name="month" className="font-bold text-xl p-3 border-solid border-2 border-gray-300 rounded-md outline-none focus:border-purple" type="number" placeholder="MM" id="month" />
-            {errors.monthError != null && <span className="text-center text-xs font-normal text-light-red">{errors.monthError}</span>}
+            <input autoComplete="off" required name="month" className={`font-bold text-xl p-3 border-solid border-2 ${errors.monthError ? "border-light-red focus:border-light-red" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="MM" id="month" />
+            {errors.monthError && <span className="text-center text-xs font-thin mt-1 italic text-light-red">{errors.monthError}</span>}
           </div>
           <div className="flex flex-col w-[30%]">
             <label className="text-gray-500 tracking-[.25em] mb-1 text-sm font-bold" htmlFor="year">ANO</label>
-            <input autoComplete="off" required name="year" className="font-bold text-xl p-3 border-solid border-2 border-gray-300 rounded-md outline-none focus:border-purple" type="number" placeholder="AAAA" id="year" />
-            {errors.yearError != null && <span className="text-center text-xs font-normal text-light-red">{errors.yearError}</span>}
+            <input autoComplete="off" required name="year" className={`font-bold text-xl p-3 border-solid border-2 ${errors.yearError ? "border-light-red focus:border-light-red" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="AAAA" id="year" />
+            {errors.yearError && <span className="text-center text-xs font-thin mt-1 italic text-light-red">{errors.yearError}</span>}
           </div>
         </div>
         <div className="relative flex justify-center items-center w-full h-[1px] bg-gray-300 my-10">
