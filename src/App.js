@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function App() {
   const [ data, setData ] = useState({ seconds: '--', minutes: '--', hours: '--', days: '--', months: '--', years: '--'});
-  const [ errors, setErrors ] = useState({ seconds: null, minutes: null, hours: null, dayError: null, monthError: null, yearError: null });
+  const [ errors, setErrors ] = useState({ dayError: null, monthError: null, yearError: null });
 
   const calculateDate = (e) => {
     e.preventDefault();
@@ -88,36 +88,36 @@ export default function App() {
   }
 
   return (
-    <section className="bg-white px-6 py-12 rounded-3xl rounded-br-[150px] mx-[5%] mt-20">
+    <section className="bg-white px-6 py-12 rounded-3xl rounded-br-[150px] mx-[5%] md:mx-[10%] md:px-8 lg:mx-[25%] lg:px-12 mt-20">
       <form onSubmit={calculateDate} className="flex flex-col gap-4 justify-between">
         <div className="flex flex-row justify-between">
           <div className="flex flex-col w-[30%]">
-            <label className={`${errors.dayError ? "text-light-red" : "text-gray-500"} tracking-[.25em] mb-1 text-sm font-bold`} htmlFor="day">DIA</label>
-            <input autoComplete="off" name="day" className={`font-bold text-xl p-3 border-solid border-2 ${errors.dayError ? "invalid" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="DD" id="day" />
+            <label className={`${errors.dayError ? "text-light-red" : "text-gray-500"} tracking-[.25em] mb-1 text-sm md:text-lg font-bold`} htmlFor="day">DIA</label>
+            <input autoComplete="off" name="day" className={`font-bold text-xl lg:text-2xl p-3 border-solid border-2 ${errors.dayError ? "invalid" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="DD" id="day" />
             {errors.dayError && <span className="text-center text-xs font-thin mt-1 italic text-light-red">{errors.dayError}</span>}
           </div>
           <div className="flex flex-col w-[30%]">
-            <label className={`${errors.monthError ? "text-light-red" : "text-gray-500"} tracking-[.25em] mb-1 text-sm font-bold`} htmlFor="month">MÊS</label>
-            <input autoComplete="off" name="month" className={`font-bold text-xl p-3 border-solid border-2 ${errors.monthError ? "invalid" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="MM" id="month" />
+            <label className={`${errors.monthError ? "text-light-red" : "text-gray-500"} tracking-[.25em] mb-1 text-sm md:text-lg font-bold`} htmlFor="month">MÊS</label>
+            <input autoComplete="off" name="month" className={`font-bold text-xl lg:text-2xl p-3 border-solid border-2 ${errors.monthError ? "invalid" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="MM" id="month" />
             {errors.monthError && <span className="text-center text-xs font-thin mt-1 italic text-light-red">{errors.monthError}</span>}
           </div>
           <div className="flex flex-col w-[30%]">
-            <label className={`${errors.yearError ? "text-light-red" : "text-gray-500"} tracking-[.25em] mb-1 text-sm font-bold`} htmlFor="year">ANO</label>
-            <input autoComplete="off" name="year" className={`font-bold text-xl p-3 border-solid border-2 ${errors.yearError ? "invalid" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="AAAA" id="year" />
+            <label className={`${errors.yearError ? "text-light-red" : "text-gray-500"} tracking-[.25em] mb-1 text-sm md:text-lg font-bold`} htmlFor="year">ANO</label>
+            <input autoComplete="off" name="year" className={`font-bold text-xl lg:text-2xl p-3 border-solid border-2 ${errors.yearError ? "invalid" : "border-gray-300 focus:border-purple"} rounded-md outline-none`} type="number" placeholder="AAAA" id="year" />
             {errors.yearError && <span className="text-center text-xs font-thin mt-1 italic text-light-red">{errors.yearError}</span>}
           </div>
         </div>
-        <div className="relative flex justify-center items-center w-full h-[1px] bg-gray-300 my-10">
+        <div className="relative flex justify-center items-center w-full h-[1px] bg-gray-300 my-10 md:justify-end">
           <button type="submit" className="absolute bg-purple rounded-full p-4"><img className="w-8" src={iconArrow} alt="Ícone de uma seta apontada para baixo"/></button>
         </div>
       </form>
       <div className="mt-4">
-        <p className="font-extrabold italic text-4xl"><span className="text-purple">{data.years}</span> {checkPluralDate(data.years) ? 'anos' : 'ano'}</p>
-        <p className="font-extrabold italic text-4xl"><span className="text-purple">{data.months}</span> {checkPluralDate(data.months) ? 'meses' : 'mês'}</p>
-        <p className="font-extrabold italic text-4xl"><span className="text-purple">{data.days}</span> {checkPluralDate(data.days) ? 'dias' : 'dia'}</p>
-        <p className="font-extrabold italic text-4xl"><span className="text-purple">{data.hours}</span> {checkPluralDate(data.hours) ? 'horas' : 'hora'}</p>
-        <p className="font-extrabold italic text-4xl"><span className="text-purple">{data.minutes}</span> {checkPluralDate(data.minutes) ? 'minutos' : 'minuto'}</p>
-        <p className="font-extrabold italic text-4xl"><span className="text-purple">{data.seconds}</span> {checkPluralDate(data.seconds) ? 'segundos' : 'segundo'}</p>
+        <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.years}</span> {checkPluralDate(data.years) ? 'anos' : 'ano'}</p>
+        <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.months}</span> {checkPluralDate(data.months) ? 'meses' : 'mês'}</p>
+        <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.days}</span> {checkPluralDate(data.days) ? 'dias' : 'dia'}</p>
+        <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.hours}</span> {checkPluralDate(data.hours) ? 'horas' : 'hora'}</p>
+        <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.minutes}</span> {checkPluralDate(data.minutes) ? 'minutos' : 'minuto'}</p>
+        <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.seconds}</span> {checkPluralDate(data.seconds) ? 'segundos' : 'segundo'}</p>
       </div>
     </section>
   );
