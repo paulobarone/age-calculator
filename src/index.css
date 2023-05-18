@@ -10,3 +10,7 @@
     margin: 0;
   }
 }
+
+.invalid {
+  @apply border-light-red focus:border-light-red;
+}
