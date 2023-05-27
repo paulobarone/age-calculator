@@ -1,6 +1,5 @@
 import iconArrow from "./assets/img/icon-arrow.svg";
 import { useState } from "react";
-import Footer from "./components/Footer";
 
 export default function App() {
   const [ data, setData ] = useState({ seconds: '--', minutes: '--', hours: '--', days: '--', months: '--', years: '--'});
@@ -122,7 +121,6 @@ export default function App() {
           <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.seconds}</span> {checkPluralDate(data.seconds) ? 'segundos' : 'segundo'}</p>
         </div>
       </section>
-      <Footer />
     </>
   );
 }
