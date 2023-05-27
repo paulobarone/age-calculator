@@ -1,9 +1,10 @@
 import iconArrow from "./assets/img/icon-arrow.svg";
 import { useState } from "react";
+import ResultInfo from "./components/ResultInfo";
 
 export default function App() {
-  const [ data, setData ] = useState({ seconds: '--', minutes: '--', hours: '--', days: '--', months: '--', years: '--'});
-  const [ errors, setErrors ] = useState({ dayError: null, monthError: null, yearError: null });
+  const [ data, setData ] = useState({ years: '--', months: '--', days: '--', hours: '--', minutes: '--', seconds: '--' });
+  const [ errors, setErrors ] = useState({ yearError: null, monthError: null, dayError: null });
 
   const calculateDate = (e) => {
     e.preventDefault();
@@ -81,12 +82,6 @@ export default function App() {
     return errorsObject;
   };
 
-  const checkPluralDate = (number) => {
-    if(number === 0 || number >= 2) {
-      return true;
-    }
-  }
-
   return (
     <>
       <section className="bg-white px-6 py-12 rounded-3xl rounded-br-[150px] mx-[5%] md:mx-[10%] md:px-8 lg:mx-[25%] lg:px-12 mt-20">
@@ -112,13 +107,13 @@ export default function App() {
             <button type="submit" className="absolute bg-purple rounded-full p-4"><img className="w-8" src={iconArrow} alt="Ícone de uma seta apontada para baixo"/></button>
           </div>
         </form>
-        <div className="mt-4">
-          <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.years}</span> {checkPluralDate(data.years) ? 'anos' : 'ano'}</p>
-          <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.months}</span> {checkPluralDate(data.months) ? 'meses' : 'mês'}</p>
-          <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.days}</span> {checkPluralDate(data.days) ? 'dias' : 'dia'}</p>
-          <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.hours}</span> {checkPluralDate(data.hours) ? 'horas' : 'hora'}</p>
-          <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.minutes}</span> {checkPluralDate(data.minutes) ? 'minutos' : 'minuto'}</p>
-          <p className="font-extrabold italic text-4xl md:text-6xl"><span className="text-purple">{data.seconds}</span> {checkPluralDate(data.seconds) ? 'segundos' : 'segundo'}</p>
+        <div className={`mt-4 ${data.years === '--' && 'hidden'}`}>
+          <ResultInfo data={data.years} singularWord='ano' pluralWord='anos' />
+          <ResultInfo data={data.months} singularWord='mês' pluralWord='meses' />
+          <ResultInfo data={data.days} singularWord='dia' pluralWord='dias' />
+          <ResultInfo data={data.hours} singularWord='hora' pluralWord='horas' />
+          <ResultInfo data={data.minutes} singularWord='minuto' pluralWord='minutos' />
+          <ResultInfo data={data.seconds} singularWord='segundo' pluralWord='segundos' />
         </div>
       </section>
     </>
