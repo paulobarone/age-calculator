@@ -64,6 +64,8 @@ export default function App() {
     } else {
       if (year < 1) {
         errorsObject.yearError = 'Coloque um valor válido';
+      } else if(year < 100) {
+        errorsObject.yearError = 'O ano não pode ser menor que 100';
       }
     }
   
