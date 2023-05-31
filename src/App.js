@@ -12,7 +12,7 @@ export default function App() {
     const valueDate = {
       day: Number(day.value),
       month: Number(month.value),
-      year: Number(year.value)
+      year: Number(handleDoubleNumber(year.value))
     };
   
     const updatedErrors = checkErrors(valueDate.day, valueDate.month, valueDate.year);
@@ -38,6 +38,12 @@ export default function App() {
       setErrors(updatedErrors);
     }
   };
+  
+  const handleDoubleNumber = (number) => {
+    if(handleDoubleNumber < 100) {
+      return `00${number}`
+    }
+  }
 
   const checkErrors = (day, month, year) => {
     const errorsObject = { dayError: null, monthError: null, yearError: null };
