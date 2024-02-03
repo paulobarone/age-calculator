@@ -1,4 +1,4 @@
-# Calculadora de Idade com React
+# Calculadora de Idade
 
 ## Descrição
 
